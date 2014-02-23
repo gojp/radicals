@@ -1,4 +1,4 @@
 radicals
 ====
 
-Parser for the [RADKFILE](http://www.csse.monash.edu.au/~jwb/kradinf.html)
+Parser for [RADKFILE/KRADFILE](http://www.csse.monash.edu.au/~jwb/kradinf.html)
