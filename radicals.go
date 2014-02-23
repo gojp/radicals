@@ -2,7 +2,6 @@ package radicals
 
 import (
 	"bufio"
-	"fmt"
 	"os"
 	"strings"
 )
@@ -31,8 +30,8 @@ func ParseRadkfile(filename string) (r RadkfileParser, err error) {
 			r.Radicals[cur] = append(r.Radicals[cur], s...)
 		}
 	}
-	if err := scanner.Err(); err != nil {
-		fmt.Fprintln(os.Stderr, "error:", err)
+	if err = scanner.Err(); err != nil {
+		return
 	}
 	return
 }
