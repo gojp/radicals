@@ -21,3 +21,6 @@ _testmain.go
 
 *.exe
 *.swp
+
+kradfile.utf8
+radkfile.utf8
