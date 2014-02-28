@@ -1,0 +1,5 @@
+before_script:
+  - ./get_files.sh
+language: go
+go:
+  - 1.2
