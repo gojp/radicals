@@ -14,9 +14,11 @@ type Radical struct {
 
 type RadkfileParser map[string]Radical
 
-type KradfileParser struct {
-	Kanji map[string][]string
+type Kanji struct {
+	Radicals []string
 }
+
+type KradfileParser map[string]Kanji
 
 func ParseRadkfile(filename string) (RadkfileParser, error) {
 	r := RadkfileParser{}
@@ -45,9 +47,9 @@ func ParseRadkfile(filename string) (RadkfileParser, error) {
 			r[cur] = rad
 		default:
 			s := strings.Split(t, "")
+			rad := r[cur]
 			k := r[cur].Kanji
 			k = append(r[cur].Kanji, s...)
-			rad := r[cur]
 			rad.Kanji = k
 			r[cur] = rad
 		}
@@ -58,14 +60,14 @@ func ParseRadkfile(filename string) (RadkfileParser, error) {
 	return r, err
 }
 
-func ParseKradfile(filename string) (k KradfileParser, err error) {
+func ParseKradfile(filename string) (KradfileParser, error) {
+	k := KradfileParser{}
 	kradfile, err := os.Open(filename)
 	if err != nil {
-		return
+		return k, err
 	}
 	defer kradfile.Close()
 	scanner := bufio.NewScanner(kradfile)
-	k.Kanji = map[string][]string{}
 	for scanner.Scan() {
 		t := scanner.Text()
 		switch t[0] {
@@ -73,11 +75,13 @@ func ParseKradfile(filename string) (k KradfileParser, err error) {
 			continue
 		default:
 			s := strings.Split(t, " : ")
-			k.Kanji[s[0]] = s[1:]
+			kanji := Kanji{}
+			kanji.Radicals = s[1:]
+			k[s[0]] = kanji
 		}
 	}
 	if err = scanner.Err(); err != nil {
-		return
+		return k, err
 	}
-	return
+	return k, err
 }

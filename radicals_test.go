@@ -25,8 +25,8 @@ func TestKradfileParser(t *testing.T) {
 	if err != nil {
 		t.Fatalf("ParseKradfile: %v", err)
 	}
-	if len(got.Kanji) != numKanji {
-		t.Fatalf("ParseKradfile length incorrect: got %d, want %d", len(got.Kanji), numKanji)
+	if len(got) != numKanji {
+		t.Fatalf("ParseKradfile length incorrect: got %d, want %d", len(got), numKanji)
 	}
 }
 
