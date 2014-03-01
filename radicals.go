@@ -3,26 +3,32 @@ package radicals
 import (
 	"bufio"
 	"os"
+	"strconv"
 	"strings"
 )
 
-type RadkfileParser struct {
-	Radicals map[string][]string
+type Radical struct {
+	StrokeCount int
+	Kanji       []string
 }
+
+type RadkfileParser map[string]Radical
 
 type KradfileParser struct {
 	Kanji map[string][]string
 }
 
-func ParseRadkfile(filename string) (r RadkfileParser, err error) {
+func ParseRadkfile(filename string) (RadkfileParser, error) {
+	r := RadkfileParser{}
 	radkfile, err := os.Open(filename)
 	if err != nil {
-		return
+		return r, err
 	}
 	defer radkfile.Close()
 	scanner := bufio.NewScanner(radkfile)
-	r.Radicals = map[string][]string{}
-	cur := ""
+	var rad Radical
+	var cur = ""
+	var strokes = 0
 	for scanner.Scan() {
 		t := scanner.Text()
 		switch t[0] {
@@ -30,16 +36,26 @@ func ParseRadkfile(filename string) (r RadkfileParser, err error) {
 			continue
 		case '$':
 			s := strings.Split(t, " ")
-			cur = s[1] + "_" + s[2]
+			cur = s[1]
+			strokes, err = strconv.Atoi(s[2])
+			if err != nil {
+				return r, err
+			}
+			rad.StrokeCount = strokes
+			r[cur] = rad
 		default:
 			s := strings.Split(t, "")
-			r.Radicals[cur] = append(r.Radicals[cur], s...)
+			k := r[cur].Kanji
+			k = append(r[cur].Kanji, s...)
+			rad := r[cur]
+			rad.Kanji = k
+			r[cur] = rad
 		}
 	}
 	if err = scanner.Err(); err != nil {
-		return
+		return r, err
 	}
-	return
+	return r, err
 }
 
 func ParseKradfile(filename string) (k KradfileParser, err error) {
