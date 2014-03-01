@@ -76,7 +76,7 @@ func ParseKradfile(filename string) (KradfileParser, error) {
 		default:
 			s := strings.Split(t, " : ")
 			kanji := Kanji{}
-			kanji.Radicals = s[1:]
+			kanji.Radicals = strings.Split(s[1], " ")
 			k[s[0]] = kanji
 		}
 	}
