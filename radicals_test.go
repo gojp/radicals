@@ -38,6 +38,7 @@ var radicalToKanjiTests = []struct {
 	{"入", 2, strings.Split("久込入兩兪叺圦懣杁柩滿疚瞞窩糴裲蹣輛陝魎鳰", "")},
 	{"マ", 2, strings.Split("桶擬疑凝柔序痛通樋矛勇湧涌予預踊豫舒俑墅慂懋抒揉矜礙糅蛹蹂踴鞣", "")},
 	{"門", 8, strings.Split("闇閏閲開閣澗簡間閑関閤潤閃闘閥聞閉問悶門欄蘭們墹嫺嫻憫捫擱椚櫚瀾燗爛癇繝藺襴躙躪閂閇閊閔閖閘閙閠閨閧閭閼閻閹閾闊濶闃闍闌闕闔闖關闡闥闢", "")},
+	{"龠", 17, strings.Split("籥鑰龠", "")},
 }
 
 func sliceEqual(s1, s2 []string) bool {
@@ -73,6 +74,7 @@ var kanjiToRadicalTests = []struct {
 }{
 	{"亜", strings.Split("｜ 一 口", " ")},
 	{"機", strings.Split("ノ 木 丶 幺 戈", " ")},
+	{"熙", strings.Split("杰 已 匚 口", " ")},
 }
 
 func TestKanjiToRadicals(t *testing.T) {
